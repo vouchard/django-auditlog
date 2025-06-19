@@ -2,9 +2,15 @@ from datetime import timezone
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import NOT_PROVIDED, DateTimeField, JSONField, Model
 from django.utils import timezone as django_timezone
 from django.utils.encoding import smart_str
+
+from django.db.models import NOT_PROVIDED, DateTimeField, Model
+
+try:
+    from django.db.models import JSONField  # Django 3.1+
+except ImportError:
+    from django.contrib.postgres.fields import JSONField  # For Django < 3.1
 
 
 def track_field(field):
