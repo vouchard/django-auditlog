@@ -29,7 +29,7 @@ setup(
     long_description_content_type="text/markdown",
     python_requires=">=3.6",
     #python_requires=">=3.7",
-    install_requires=["Django>=3.2", "python-dateutil>=2.7.0"],
+    install_requires=["Django>=2.2", "python-dateutil>=2.7.0"],
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
