@@ -16,6 +16,7 @@ from django.db.models import Q, QuerySet
 from django.utils import formats
 from django.utils.encoding import smart_str
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.fields import JSONField
 
 from auditlog.diff import mask_str
 
@@ -338,7 +339,7 @@ class LogEntry(models.Model):
         blank=True, db_index=True, null=True, verbose_name=_("object id")
     )
     object_repr = models.TextField(verbose_name=_("object representation"))
-    serialized_data = models.JSONField(null=True)
+    serialized_data = JSONField(null=True)
     action = models.PositiveSmallIntegerField(
         choices=Action.choices, verbose_name=_("action"), db_index=True
     )
@@ -357,7 +358,7 @@ class LogEntry(models.Model):
     timestamp = models.DateTimeField(
         db_index=True, auto_now_add=True, verbose_name=_("timestamp")
     )
-    additional_data = models.JSONField(
+    additional_data = JSONField(
         blank=True, null=True, verbose_name=_("additional data")
     )
 
