@@ -39,3 +39,28 @@ class AuditlogMiddleware:
 
         with context:
             return self.get_response(request)
+
+
+class JWTActorMiddleware:
+    """
+    Middleware for django-auditlog that sets the actor after view execution,
+    compatible with Simple JWT or any stateless authentication mechanism.
+
+    This must be used instead of the default AuditlogMiddleware when using JWT.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Process the view first — JWT auth sets request.user here
+        response = self.get_response(request)
+
+        user = getattr(request, "user", None)
+        if user and user.is_authenticated:
+            set_actor(user)
+        else:
+            set_actor(None)
+
+        return response
+
